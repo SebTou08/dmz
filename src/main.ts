@@ -24,6 +24,7 @@ import ToastService from 'primevue/toastservice';
 import Toast from 'primevue/toast';
 import Splitter from 'primevue/splitter';
 import SplitterPanel from 'primevue/splitterpanel';
+import InputText from 'primevue/inputtext';
 
 
 const app = createApp(App)
@@ -35,6 +36,7 @@ app.component('Button', Button)  // register Button component
 app.component('Dialog', Dialog)
 app.component('TabView', TabView)
 app.component('TabPanel', TabPanel)
+app.component('InputText', InputText)
 app.component('TabMenu', TabMenu)
 app.component('VirtualScroller', VirtualScroller)
 app.component('Menubar', Menubar)

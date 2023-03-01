@@ -14,9 +14,13 @@
         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
         <span>Segura que quieres realizar el canje?</span>
       </div>
+     <span style="margin-top: 25px" class="p-float-label">
+        <InputText id="username" type="password" v-model="messageInput" />
+        <label for="username">Contraseña</label>
+     </span>
       <template #footer>
         <Button label="No" icon="pi pi-times" @click="closeConfirmation" class="p-button-text"/>
-        <Button label="Si papi" icon="pi pi-check" @click="canjearVale" class="p-button-text" autofocus />
+        <Button v-if="messageInput == 'waldir' " label="Si papi" icon="pi pi-check" @click="canjearVale" class="p-button-text" autofocus />
       </template>
     </Dialog>
   </div>
@@ -36,6 +40,7 @@ const displayConfirmation = ref(false);
 const service: Service = new Service();
 
 const toast = useToast();
+const messageInput = ref('');
 
 const showSuccess = () => {
   toast.add({severity:'success', summary: 'Canjeado', detail:'Vale canjeado correctamente', life: 3000});
