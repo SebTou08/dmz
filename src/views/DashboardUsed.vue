@@ -4,7 +4,7 @@
         <div class="gallery">
           <div  v-for="(item, index) in used" :key="index">
             <div>
-              <Vale :used="true" class="feature"  :vale="item"/>
+              <UsedVales class="feature"  :vale="item" :is-soon="false" />
 
             </div>
           </div>
@@ -24,9 +24,10 @@ import {Service} from "@/views/service";
 import type {ValeInterface} from "@/models/vale.interface";
 import {ref} from "vue";
 import router from "@/router";
+import UsedVales from "@/components/vale/usedVales.vue";
 
 const goTo = () => {
-  router.push('/dashboard')
+  router.push('/')
 }
 const active1 = ref(0);
 const tabs = ref([
@@ -53,7 +54,7 @@ console.log(vales)
   gap: 1rem;
   grid-auto-flow: dense;
   grid-auto-rows: 15rem;
-  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(35rem, 1fr));
 }
 .feature{
   grid-column: span 2;

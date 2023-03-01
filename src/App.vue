@@ -3,13 +3,19 @@ import { RouterLink, RouterView } from 'vue-router'
 import HelloWorld from './components/HelloWorld.vue'
 import {ref} from "vue";
 
-
+const items= [
+  {label: 'Disponibles', icon: 'pi pi-fw pi-home', to: '/'},
+  {label: 'Usados', icon: 'pi pi-fw pi-calendar', to: '/used'},
+  {label: 'Proximamente', icon: 'pi pi-fw pi-pencil', to: '/soon'},
+]
 </script>
 
 <template>
 
-  <RouterView v-slot="{ Component }">
-    <template v-if="Component">
+  <TabMenu class="tbar" :model="items" />
+
+  <RouterView v-slot="{ Component }" class="cpm">
+    <template v-if="Component" class="cpm" >
       <Transition mode="out-in">
         <KeepAlive>
           <Suspense>
@@ -88,5 +94,13 @@ nav a:first-of-type {
     padding: 1rem 0;
     margin-top: 1rem;
   }
+}
+
+.tbar{
+  position: absolute;
+  height: 100px;
+}
+.cpm{
+  margin-top: 120px !important;
 }
 </style>

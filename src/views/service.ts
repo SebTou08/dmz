@@ -1,5 +1,6 @@
 import axios from "axios";
 import type {ValeInterface} from "@/models/vale.interface";
+import {now} from "@vueuse/core";
 
 export class Service {
     private instace;
@@ -14,8 +15,9 @@ export class Service {
         return (await this.instace.get('vales')).data;
     }
 
-    public async canejearVale(id: number, vale: ValeInterface) {
+    public async canejearVale(id: number, vale: ValeInterface): Promise<number> {
         vale.taken = true;
-        return (await this.instace.put('/vales/' + id, vale)).data;
+        vale.takenDate = new Date();
+        return (await this.instace.put('/vales/' + id, vale)).status;
     }
 }

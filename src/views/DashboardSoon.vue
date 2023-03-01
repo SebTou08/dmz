@@ -4,15 +4,13 @@
         <div class="gallery">
           <div  v-for="(item, index) in available" :key="index">
             <div>
-              <Vale :used="false" class="feature"  :vale="item"/>
+              <UsedVales class="feature"  :vale="item" is-soon/>
 
             </div>
           </div>
         </div>
-  <Button class="btn-flotante" @click="goTo">Ver vales usados</Button>
 
-
-
+  <Button class="btn-flotante" @click="goTo">Disponibles</Button>
   </div>
 
 
@@ -26,27 +24,17 @@ import {Service} from "@/views/service";
 import type {ValeInterface} from "@/models/vale.interface";
 import {ref} from "vue";
 import router from "@/router";
-const active1 = ref(0);
+import UsedVales from "@/components/vale/usedVales.vue";
+
 const goTo = () => {
-  router.push('/used')
+  router.push('/dashboard')
 }
-const tabs = ref([
-  {
-    title: 'Vales disponibles',
-    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
-  },
-  {
-    title: 'Vales usados',
-    content: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Consectetur, adipisci velit, sed quia non numquam eius modi."
-  }
-]);
+
 
 const service: Service = new Service();
 const vales: Array<ValeInterface> = await service.getAllVales();
-const available: Array<ValeInterface> = (vales.filter(e => !e.taken)).filter(e => new Date(e.fDisponibleDesde!).getTime() < new Date().getTime() );
-console.log(vales);
-console.log('from ' , available);
-
+const available: Array<ValeInterface> = (vales.filter(e => !e.taken)).filter(e => new Date(e.fDisponibleDesde!).getTime() > new Date().getTime() );
+console.log('from soon' , available);
 </script>
 
 <style scoped>
@@ -76,7 +64,6 @@ console.log('from ' , available);
   background: #000000 !important;
 
 }
-
 .btn-flotante {
   font-size: 16px; /* Cambiar el tamaño de la tipografia */
   text-transform: uppercase; /* Texto en mayusculas */

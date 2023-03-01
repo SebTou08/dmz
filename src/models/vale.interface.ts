@@ -2,7 +2,10 @@ export interface ValeInterface {
     name: string;
     taken: boolean;
     fExpiracion?: Date;
-    fcaje?: Date;
+    fDisponibleDesde?: Date;
     quantity: number;
-    id: number
+    id: number;
+
+    takenCode?: number | string;
+    takenDate?: Date;
 }

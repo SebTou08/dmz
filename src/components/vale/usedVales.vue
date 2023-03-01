@@ -1,24 +1,13 @@
 <template>
   <div class="ticket" @click="openConfirmation">
-    <Toast />
     <div class="ticket-content-wrapper">
       <header class="ticket2__header">Vale por: {{vale.name}}</header>
       <div class="ticket2__rip"></div>
       <div class="ticket2__body">
-        <h6>Valido desde: {{ new Date(vale.fDisponibleDesde).toLocaleDateString('en-GB') }}</h6>
-        <h6>Vencimiento: {{ new Date(vale.fExpiracion).toLocaleDateString('en-GB')}}</h6>
+        <h6 v-if="!props.isSoon">Canjeado el: : {{new Date(vale.takenDate).toLocaleDateString('en-GB')}}</h6>
+        <h6 v-if="props.isSoon">Disponible desde: : {{new Date(vale.fDisponibleDesde).toLocaleDateString('en-GB')}}</h6>
       </div>
     </div>
-    <Dialog v-if="!used" header="Confirmation" v-model:visible="displayConfirmation" :breakpoints="{'960px': '75vw', '640px': '90vw'}" :style="{width: '350px'}" :modal="true">
-      <div class="confirmation-content">
-        <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-        <span>Segura que quieres realizar el canje?</span>
-      </div>
-      <template #footer>
-        <Button label="No" icon="pi pi-times" @click="closeConfirmation" class="p-button-text"/>
-        <Button label="Si papi" icon="pi pi-check" @click="canjearVale" class="p-button-text" autofocus />
-      </template>
-    </Dialog>
   </div>
 </template>
 
@@ -27,47 +16,21 @@ import type {ValeInterface} from "@/models/vale.interface";
 import {ref} from "vue";
 import {Service} from "@/views/service";
 import {useShare} from "@vueuse/core";
-import {useToast} from "primevue/usetoast";
 const props = defineProps<{
   vale: ValeInterface,
-  used: boolean
+  isSoon: boolean
 }>();
 const displayConfirmation = ref(false);
 const service: Service = new Service();
 
-const toast = useToast();
 
-const showSuccess = () => {
-  toast.add({severity:'success', summary: 'Canjeado', detail:'Vale canjeado correctamente', life: 3000});
-}
-
-const canjearVale = async () => {
-  const res= await service.canejearVale(props.vale.id, props.vale);
-  if (res.toString().startsWith('2')){
-    showSuccess();
-    startShare();
-    displayConfirmation.value = false;
-    window.location.reload();
-  }
-
-}
 
 const openConfirmation = () => {
   displayConfirmation.value = true;
 };
 
-const { share, isSupported } = useShare()
 
-function startShare() {
-  share({
-    title: 'Vale: ' + props.vale.id,
-    text: 'Hola mi papirriqui, quiero canjear el siguiente vale: ' + props.vale.takenCode + + "<br>" + props.vale.name.bold(),
-    url: location.href,
-  })
-}
-const closeConfirmation = () => {
-  displayConfirmation.value = false;
-};
+
 </script>
 
 <style >
@@ -88,7 +51,6 @@ body {
 }
 
 .ticket {
-  cursor: pointer !important;
   width: 450px;
   height: 220px;
   margin: 100px auto;
