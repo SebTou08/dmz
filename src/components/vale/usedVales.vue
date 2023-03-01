@@ -52,7 +52,7 @@ body {
 
 .ticket {
   left: -50px;
-  width: 450px;
+  width: 350px;
   height: 220px;
   margin: 100px auto;
   position: relative;
